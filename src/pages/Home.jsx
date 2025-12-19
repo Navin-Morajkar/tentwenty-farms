@@ -1,28 +1,30 @@
-import React from "react";
+import { useState } from "react";
 import Header from "../components/layout/Header";
 import Hero from "../components/sections/Hero";
 import Products from "../components/sections/Products";
+import Preloader from "../components/ui/Preloader";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
   return (
-    <div className="home-container">
-      <Header />
+    <>
+      {loading && <Preloader onComplete={() => setLoading(false)} />}
+      <div className="home-container">
+        <Header />
 
-      {/* 1. Hero Section (Relative, 100vh) */}
-      <Hero />
+        <Hero />
 
-      {/* 2. Products Section (Flows naturally below) */}
-      <Products />
+        <Products />
 
-      <style>{`
+        <style>{`
         .home-container {
-          width: 100%;
-          /* No fixed height here, let content dictate height */
-          background-color: #fff;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-      `}</style>
-    </div>
+            width: 100%;
+            background-color: #fff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }
+            `}</style>
+      </div>
+    </>
   );
 };
 
