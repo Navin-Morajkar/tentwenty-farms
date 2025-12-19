@@ -1,26 +1,29 @@
+import React from "react";
 import Header from "../components/layout/Header";
 import Hero from "../components/sections/Hero";
+import Products from "../components/sections/Products";
 
-const Home= ()=> {
+const Home = () => {
   return (
-    <>
-      <div className="home-container">
-        <Header />
-        <Hero />
+    <div className="home-container">
+      <Header />
 
-        <style>{`
+      {/* 1. Hero Section (Relative, 100vh) */}
+      <Hero />
+
+      {/* 2. Products Section (Flows naturally below) */}
+      <Products />
+
+      <style>{`
         .home-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #f4f4f4;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            }
-            `}</style>
-      </div>
-    </>
+          width: 100%;
+          /* No fixed height here, let content dictate height */
+          background-color: #fff;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+      `}</style>
+    </div>
   );
-}
+};
 
-export default Home
+export default Home;
