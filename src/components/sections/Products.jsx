@@ -50,8 +50,9 @@ const Products = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null); // Ref to track cursor within this area
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(2);
   const [isDragging, setIsDragging] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [startX, setStartX] = useState(0);
   const [dragX, setDragX] = useState(0);
 
@@ -60,6 +61,13 @@ const Products = () => {
   const [showCursor, setShowCursor] = useState(false);
 
   useEffect(() => {
+    // Check initial size
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    // Add listener
+    window.addEventListener("resize", checkMobile);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -70,7 +78,10 @@ const Products = () => {
       { threshold: 0.2 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", checkMobile);
+    };
   }, []);
 
   // --- MOUSE EVENT HANDLERS ---
@@ -86,7 +97,7 @@ const Products = () => {
       const rect = containerRef.current.getBoundingClientRect();
       const clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
       const clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
-      
+
       setCursorPos({
         x: clientX - rect.left,
         y: clientY - rect.top,
@@ -97,12 +108,15 @@ const Products = () => {
     if (!isDragging) return;
     const clientX = e.clientX || e.touches[0].clientX;
     const diff = clientX - startX;
-    
+
     // Resistance at edges
-    if ((currentIndex === 0 && diff > 0) || (currentIndex === products.length - 1 && diff < 0)) {
-        setDragX(diff * 0.3);
+    if (
+      (currentIndex === 0 && diff > 0) ||
+      (currentIndex === products.length - 1 && diff < 0)
+    ) {
+      setDragX(diff * 0.3);
     } else {
-        setDragX(diff);
+      setDragX(diff);
     }
   };
 
@@ -135,25 +149,25 @@ const Products = () => {
     const absPosition = Math.abs(position);
 
     if (absPosition > 3) {
-      return { opacity: 0, visibility: 'hidden', pointerEvents: 'none' };
+      return { opacity: 0, visibility: "hidden", pointerEvents: "none" };
     }
 
-    const X_SPACING = 140; 
-    const Y_DROP = 40;     
-    const ROTATION = 15;   
+    const X_SPACING = isMobile ? 125: 140;
+    const Y_DROP = isMobile ? 50 : 40;
+    const ROTATION = 15;
     const SCALE_CENTER = 1;
     const SCALE_SIDE = 0.9;
 
     const translateX = position * X_SPACING;
     const translateY = absPosition * Y_DROP;
-    let scale = SCALE_CENTER - (absPosition * (SCALE_CENTER - SCALE_SIDE));
+    let scale = SCALE_CENTER - absPosition * (SCALE_CENTER - SCALE_SIDE);
     scale = Math.max(scale, SCALE_SIDE);
     const rotate = position * ROTATION;
     const zIndex = 10 - Math.round(absPosition);
-    
+
     let opacity = 1;
     if (absPosition > 2) {
-      opacity = 1 - ((absPosition - 2)); 
+      opacity = 1 - (absPosition - 2);
       if (opacity < 0) opacity = 0;
     }
 
@@ -161,54 +175,64 @@ const Products = () => {
       transform: `translateX(${translateX}%) translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`,
       zIndex: zIndex,
       opacity: opacity,
-      visibility: 'visible',
-      transition: isDragging ? 'none' : 'transform 1.0s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.0s',
+      visibility: "visible",
+      transition: isDragging
+        ? "none"
+        : "transform 1.0s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.0s",
     };
   };
 
   return (
     <section className="products-section" ref={sectionRef}>
-      
       <div className="text-content">
-        <h2 className={`section-title ${isVisible ? "animate-scroll" : ""}`} style={{ animationDelay: '0ms' }}>
+        <h2
+          className={`section-title ${isVisible ? "animate-scroll" : ""}`}
+          style={{ animationDelay: "0ms" }}>
           Quality Products
         </h2>
-        <p className={`section-desc ${isVisible ? "animate-scroll" : ""}`} style={{ animationDelay: '300ms' }}>
+        <p
+          className={`section-desc ${isVisible ? "animate-scroll" : ""}`}
+          style={{ animationDelay: "300ms" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
+          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
 
-      <div 
+      <div
         className="carousel-container"
         ref={containerRef}
-        onMouseDown={handleMouseDown} 
-        onMouseMove={handleMouseMove} 
-        onMouseUp={handleMouseUp} 
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onTouchStart={handleMouseDown} 
-        onTouchMove={handleMouseMove} 
-        onTouchEnd={handleMouseUp}
-      >
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}>
         {/* CUSTOM FLOATING CURSOR */}
-        <div 
-          className={`custom-cursor-follower ${showCursor ? "active" : ""} ${isDragging ? "grabbing" : ""}`}
-          style={{ 
-            transform: `translate(${cursorPos.x}px, ${cursorPos.y}px)` 
-          }}
-        >
+        <div
+          className={`custom-cursor-follower ${showCursor ? "active" : ""} ${
+            isDragging ? "grabbing" : ""
+          }`}
+          style={{
+            transform: `translate(${cursorPos.x}px, ${cursorPos.y}px)`,
+          }}>
           {/* Optional: Add text or icon inside cursor if desired */}
           <div className="cursor-circle">
-             {/* Small arrows inside the circle */}
-             <span className="arrow-left">&lt;</span>
-             <span className="arrow-right">&gt;</span>
+            {/* Small arrows inside the circle */}
+            <span className="arrow-left">&lt;</span>
+            <span className="arrow-right">&gt;</span>
           </div>
         </div>
 
         <div className="cards-wrapper">
           {products.map((product, index) => (
-            <div key={product.id} className="card-item" style={getCardStyle(index)}>
+            <div
+              key={product.id}
+              className="card-item"
+              style={getCardStyle(index)}>
               <div className="image-holder">
                 <img src={product.img} alt={product.title} />
                 {/* REMOVED: The old center drag-cursor SVG is gone */}
@@ -218,14 +242,22 @@ const Products = () => {
         </div>
       </div>
 
-      <div className={`info-display ${isVisible ? "visible" : ""}`} key={currentIndex}>
-        <p className="client-subtitle animate-text" style={{ animationDelay: '0ms' }}>
+      <div
+        className={`info-display ${isVisible ? "visible" : ""}`}
+        key={currentIndex}>
+        <p
+          className="client-subtitle animate-text"
+          style={{ animationDelay: "0ms" }}>
           {products[currentIndex].subtitle}
         </p>
-        <h3 className="client-name animate-text" style={{ animationDelay: '300ms' }}>
+        <h3
+          className="client-name animate-text"
+          style={{ animationDelay: "300ms" }}>
           {products[currentIndex].title}
         </h3>
-        <p className="client-desc animate-text" style={{ animationDelay: '600ms' }}>
+        <p
+          className="client-desc animate-text"
+          style={{ animationDelay: "600ms" }}>
           {products[currentIndex].desc}
         </p>
       </div>
@@ -314,7 +346,7 @@ const Products = () => {
 
         @media (max-width: 768px) {
           .section-title { font-size: 32px; }
-          .cards-wrapper { width: 260px; height: 380px; }
+          .cards-wrapper { width: 210px; height: 300px; }
           /* On mobile, usually better to restore default cursor */
           .carousel-container { cursor: auto; }
           .custom-cursor-follower { display: none; }
