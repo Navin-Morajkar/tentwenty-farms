@@ -1,16 +1,26 @@
 import Header from "../components/layout/Header";
 import Hero from "../components/sections/Hero";
-import ProductShowcase from "../components/sections/ProductShowcase";
 
-export default function Home() {
+const Home= ()=> {
   return (
     <>
-      <Header />
-
-      <main className="flex-1 h-full bg-amber-200">
+      <div className="home-container">
+        <Header />
         <Hero />
-        <ProductShowcase />
-      </main>
+
+        <style>{`
+        .home-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }
+            `}</style>
+      </div>
     </>
   );
 }
+
+export default Home
