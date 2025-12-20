@@ -9,20 +9,12 @@ const Home = () => {
   return (
     <>
       {loading && <Preloader onComplete={() => setLoading(false)} />}
-      <div className="home-container">
+      <div className="w-full min-h-screen bg-white">
         <Header />
 
         <Hero />
 
         <Products />
-
-        <style>{`
-        .home-container {
-            width: 100%;
-            background-color: #fff;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            }
-            `}</style>
       </div>
     </>
   );
