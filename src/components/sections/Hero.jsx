@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from "react";
-
-const images = [
-  "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
-];
+import { useState, useEffect } from "react";
+import { heroImages } from "../../constants/heroImages";
 
 const Hero = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,7 +10,7 @@ const Hero = () => {
 
   const handleNext = () => {
     if (animatingIndex !== null) return;
-    const nextIndex = (activeIndex + 1) % images.length;
+    const nextIndex = (activeIndex + 1) % heroImages.length;
     setAnimatingIndex(nextIndex);
 
     setTimeout(() => {
@@ -31,10 +25,10 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, [activeIndex, animatingIndex]);
 
-  const btnBaseIndex = (activeIndex + 1) % images.length;
-  const btnOverlayIndex = animatingIndex !== null ? (animatingIndex + 1) % images.length : null;
+  const btnBaseIndex = (activeIndex + 1) % heroImages.length;
+  const btnOverlayIndex = animatingIndex !== null ? (animatingIndex + 1) % heroImages.length : null;
   const currentNum = String(activeIndex + 1).padStart(2, "0");
-  const totalNum = String(images.length).padStart(2, "0");
+  const totalNum = String(heroImages.length).padStart(2, "0");
 
   return (
     <div className="relative w-full h-screen bg-[#f4f4f4] overflow-hidden">
@@ -54,13 +48,13 @@ const Hero = () => {
       {/* Background Images */}
       <div className="absolute inset-0 w-full h-full">
         <img
-          src={images[activeIndex]}
+          src={heroImages[activeIndex]}
           alt="Active"
           className="absolute inset-0 w-full h-full object-cover z-1 scale-[1.15]"
         />
         {animatingIndex !== null && (
           <img
-            src={images[animatingIndex]}
+            src={heroImages[animatingIndex]}
             alt="Incoming"
             className="absolute inset-0 w-full h-full object-cover z-2 overlay-image"
             style={{ animationDuration: `${ANIMATION_DURATION}ms` }}
@@ -80,13 +74,13 @@ const Hero = () => {
         >
           <div className="absolute inset-1.5 overflow-hidden">
             <img
-              src={images[btnBaseIndex]}
+              src={heroImages[btnBaseIndex]}
               alt="Next Base"
               className="absolute inset-0 w-full h-full object-cover z-1"
             />
             {btnOverlayIndex !== null && (
               <img
-                src={images[btnOverlayIndex]}
+                src={heroImages[btnOverlayIndex]}
                 alt="Next Overlay"
                 className="absolute inset-0 w-full h-full object-cover z-2 overlay-image"
                 style={{ animationDuration: `${ANIMATION_DURATION}ms` }}
