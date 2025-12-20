@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="absolute top-7.5 left-7.5 right-7.5 h-20 bg-white z-100 flex items-center max-[900px]:top-5 max-[900px]:left-5 max-[900px]:right-5 max-[900px]:h-17.5">
+      <nav className="absolute top-5 left-5 right-5 h-25 bg-white z-100 flex items-center max-[900px]:top-5 max-[900px]:left-5 max-[900px]:right-5 max-[900px]:h-17.5">
         <div className="w-full px-10 flex items-center justify-between max-[900px]:px-5">
           
           {/* LEFT: Desktop Menu / Mobile Contact */}
@@ -17,7 +17,7 @@ const Header = () => {
                 <li key={item}>
                   <a 
                     href={`#${item}`} 
-                    className="text-[#333] capitalize text-sm tracking-[0.5px] no-underline transition-colors duration-200 hover:text-[#888]"
+                    className="text-black capitalize text-sm tracking-none no-underline transition-colors duration-200 hover:text-[#888]"
                   >
                     {item}
                   </a>
@@ -26,7 +26,7 @@ const Header = () => {
             </ul>
 
             {/* Mobile Contact Button */}
-            <button className="flex min-[901px]:hidden items-center gap-3 bg-transparent border border-[#ccc] px-7 py-3 text-sm cursor-pointer transition-all duration-300 ease-in-out text-[#333] whitespace-nowrap hover:bg-[#333] hover:text-white hover:border-[#333]">
+            <button className="flex min-[901px]:hidden items-center gap-3 bg-transparent border border-black px-5 py-2 text-sm cursor-pointer transition-all duration-300 ease-in-out text-[#333] whitespace-nowrap hover:bg-[#333] hover:text-white hover:border-[#333]">
               Contact us <span className="text-lg">→</span>
             </button>
           </div>
@@ -34,8 +34,8 @@ const Header = () => {
           {/* RIGHT: Desktop Contact / Mobile Hamburger */}
           <div className="flex items-center">
             {/* Desktop Contact Button */}
-            <button className="hidden min-[901px]:flex items-center gap-3 bg-transparent border border-[#ccc] px-7 py-3 text-sm cursor-pointer transition-all duration-300 ease-in-out text-[#333] whitespace-nowrap hover:bg-[#333] hover:text-white hover:border-[#333]">
-              Contact us <span className="text-lg">→</span>
+            <button className="hidden min-[901px]:flex items-center gap-3 bg-transparent border border-black px-5 py-2 text-sm cursor-pointer transition-all duration-300 ease-in-out text-[#221F20] whitespace-nowrap hover:bg-[#333] hover:text-white hover:border-[#333]">
+              Contact us <span className="text-base">→</span>
             </button>
 
             {/* Hamburger Button */}

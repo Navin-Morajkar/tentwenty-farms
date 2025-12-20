@@ -49,7 +49,7 @@ const Preloader = ({ onComplete }) => {
           <p className="welcome-text font-sans text-[14px] tracking-[4px] font-light mb-2.5">
             WELCOME TO
           </p>
-          <h1 className="brand-text font-serif text-[32px] md:text-[48px] font-light tracking-[-1px] m-0">
+          <h1 className="brand-text font-sans text-[32px] md:text-[48px] font-light tracking-[-1px] m-0">
             TENTWENTY FARMS
           </h1>
         </div>
