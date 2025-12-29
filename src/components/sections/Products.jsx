@@ -83,11 +83,11 @@ const Products = () => {
     const ROTATION = 15;
 
     return {
-      transform: `translateX(${position * X_SPACING}%) translateY(${
-        absPosition * Y_DROP
-      }px) scale(${Math.max(1 - absPosition * 0.1, 0.9)}) rotate(${
-        position * ROTATION
-      }deg)`,
+      transform: `
+      translateX(${position * X_SPACING}%) 
+      translateY(${absPosition * Y_DROP}px) 
+      scale(${Math.max(1 - absPosition * 0.1, 0.9)}) 
+      rotate(${position * ROTATION}deg)`,
       zIndex: 10 - Math.round(absPosition),
       opacity: absPosition > 2 ? Math.max(0, 1 - (absPosition - 2)) : 1,
       visibility: "visible",
@@ -99,9 +99,9 @@ const Products = () => {
 
   return (
     <section
-      className="relative w-full min-h-screen bg-[#fcf7f2] py-[100px] px-5 flex flex-col items-center justify-center overflow-hidden font-sans"
+      className="relative w-full min-h-screen bg-[#fcf7f2] py-25 px-5 flex flex-col items-center justify-center overflow-hidden font-sans"
       ref={sectionRef}>
-      <div className="text-center max-w-[600px] mb-[60px]">
+      <div className="text-center max-w-150 mb-15">
         <h2
           className={`text-[42px] max-md:text-[32px] font-normal mb-5 opacity-0 ${
             isVisible ? "animate-scroll" : ""
@@ -134,14 +134,14 @@ const Products = () => {
         onTouchEnd={handleMouseUp}>
         {/* CUSTOM CURSOR */}
         <div
-          className={`absolute top-0 left-0 w-0 h-0 pointer-events-none z-[100] transition-opacity duration-200 max-md:hidden ${
+          className={`absolute top-0 left-0 w-0 h-0 pointer-events-none z-100 transition-opacity duration-200 max-md:hidden ${
             showCursor ? "opacity-100" : "opacity-0"
           }`}
           style={{
             transform: `translate(${cursorPos.x}px, ${cursorPos.y}px)`,
           }}>
           <div
-            className={`absolute -top-10 -left-10 w-[60px] h-[60px] border border-black/20 bg-white/30 backdrop-blur-[2px] rounded-full flex justify-center items-center gap-[15px] text-[#333] font-light text-[18px] transition-[transform,background] duration-200 ${
+            className={`absolute -top-10 -left-10 w-15 h-15 border border-black/20 bg-white/30 backdrop-blur-[2px] rounded-full flex justify-center items-center gap-3.75 text-[#333] font-light text-[18px] transition-[transform,background] duration-200 ${
               isDragging ? "scale-90 bg-white/60 border-black/40" : ""
             }`}>
             <span>&lt;</span>
@@ -149,7 +149,7 @@ const Products = () => {
           </div>
         </div>
 
-        <div className="relative w-[320px] h-[450px] max-md:w-[210px] max-md:h-[300px]">
+        <div className="relative w-[320px] h-112.5 max-md:w-52.5 max-md:h-75">
           {products.map((product, index) => (
             <div
               key={product.id}
