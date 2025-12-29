@@ -4,7 +4,7 @@ const Preloader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
 
-  const LOAD_DURATION = 2500; // Adjusted for testing, you can change back to 100000
+  const LOAD_DURATION = 2000;
   const EXIT_DURATION = 800;
 
   useEffect(() => {
